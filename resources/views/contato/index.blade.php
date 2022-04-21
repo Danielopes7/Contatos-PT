@@ -10,10 +10,12 @@
                         <div class="col-6">
                             Contatos
                         </div>
-                        <div class="col-6 float-right">
+                        <div class="col-6">
                             @auth
-                            <div class="float-right">
-                                <a href="{{ route('contato.create')}}" class="mr-3"> Novo</a>
+                            <div class="float-right" style="float: right">
+                                <a href="{{ route('contato.create')}}" class="mr-3">
+                                    <button type="button" class="btn btn-primary btn-sm">Novo</button>
+                                </a>                             
                             </div>
                             @endauth
                         </div>
@@ -42,16 +44,16 @@
                                     <td> {{ $contato->telefone }}</td>
                                     <td> {{ $contato->email }}</td>
                                     @auth
-                                    <td><a href="{{ route('contato.edit', $contato->id) }}">Editar</a></td>
+                                    <td><a href="{{ route('contato.edit', $contato->id) }}"><button type="button" class="btn btn-light btn-sm">Editar</button></a></td>
                                     <td>
                                         <form id="form_{{ $contato->id }}" method="post" action="{{ route('contato.destroy', ['contato' => $contato->id]) }}">
                                             @method('DELETE')
                                             @csrf
                                         </form>
-                                        <a href="#" onclick="document.getElementById('form_{{ $contato->id }}').submit()">Excluir</a>
+                                        <a href="#" onclick="document.getElementById('form_{{ $contato->id }}').submit()"><button type="button" class="btn btn-light btn-sm">Excluir</button></a>
                                     </td>
                                     <td>
-                                    <a href=" {{ route('contato.show',['contato' => $contato->id])}}">Mostrar</a>
+                                    <a href=" {{ route('contato.show',['contato' => $contato->id])}}"><button type="button" class="btn btn-light btn-sm">Mostrar</button></a>
                                     </td>
                                     @endauth
                                 </tr>
