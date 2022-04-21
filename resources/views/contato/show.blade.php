@@ -8,9 +8,16 @@
                 <div class="card-header">{{ $contato->nome }}</div>
 
                 <div class="card-body">
-                <fieldset disabled>
-                  
-                </fieldset>
+                    <div class="mb-3">
+                        <label class="form-label">Nome</label>
+                        <input type="text" class="form-control" value="{{ $contato->nome }}">
+
+                        <label class="form-label">Telefone</label>
+                        <input type="text" class="form-control" value="{{ $contato->telefone }}">
+
+                        <label class="form-label">Email</label>
+                        <input type="text" class="form-control" value="{{ $contato->email }}">
+                    </div>
                     <a href="{{ url()->previous() }}" class="btn btn-primary">Voltar</a>
                 </div>
             </div>

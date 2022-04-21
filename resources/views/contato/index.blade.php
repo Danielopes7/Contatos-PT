@@ -50,6 +50,9 @@
                                         </form>
                                         <a href="#" onclick="document.getElementById('form_{{ $contato->id }}').submit()">Excluir</a>
                                     </td>
+                                    <td>
+                                    <a href=" {{ route('contato.show',['contato' => $contato->id])}}">Mostrar</a>
+                                    </td>
                                     @endauth
                                 </tr>
                             @endforeach
