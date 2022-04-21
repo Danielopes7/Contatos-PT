@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Controle;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
+use App\Models\Contato;
 class ContatoController extends Controller
 {
     /**
@@ -14,7 +14,8 @@ class ContatoController extends Controller
      */
     public function index()
     {
-        return view('contato.index');
+        $contatos= Contato::paginate(7);
+        return view('contato.index', ['contatos' => $contatos]);
     }
 
     /**
@@ -24,7 +25,7 @@ class ContatoController extends Controller
      */
     public function create()
     {
-        //
+        return view('contato.create');
     }
 
     /**
@@ -35,51 +36,88 @@ class ContatoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $regras = [
+            'nome' => 'required|min:5',
+            'telefone' => 'required|min:9|max:9|unique:contatos,telefone',
+            'email' => 'required|email|unique:contatos,email'
+        ];
+
+        $feedback = [
+            'required' => 'O campo :attribute deve ser preenchido',
+            'nome.min' => 'O campo nome deve ter no mínimo 5 caracteres',
+            'telefone.min' => 'O campo telefone deve ter 9 caracteres',
+            'telefone.max' => 'O campo telefone deve ter 9 caracteres',
+            'telefone.unique' => 'Telefone já cadastrado',
+            'email.email' => 'O campo e-mail não foi preenchido corretamente',
+            'email.unique' => 'E-mail já cadastrado'
+        ];
+        $request->validate($regras, $feedback);
+        $contato = new Contato();
+        $contato->create($request->all());
+
+        return redirect()->route('contato.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Controle  $controle
+     * @param  \App\Models\Contato  $contato
      * @return \Illuminate\Http\Response
      */
-    public function show(Controle $controle)
+    public function show(Contato $contato)
     {
-        //
+        return view('contato.show',['contato' => $contato]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Controle  $controle
+     * @param  \App\Models\Contato  $contato
      * @return \Illuminate\Http\Response
      */
-    public function edit(Controle $controle)
+    public function edit(Contato $contato)
     {
-        //
+        return view('contato.edit', ['contato' => $contato]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Controle  $controle
+     * @param  \App\Models\Contato  $contato
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Controle $controle)
+    public function update(Request $request, Contato $contato)
     {
-        //
+        $regras = [
+            'nome' => 'required|min:5',
+            'telefone' => 'required|min:9|max:9',
+            'email' => 'required|email'
+        ];
+
+        $feedback = [
+            'required' => 'O campo :attribute deve ser preenchido',
+            'nome.min' => 'O campo nome deve ter no mínimo 5 caracteres',
+            'telefone.min' => 'O campo telefone deve ter 9 caracteres',
+            'telefone.max' => 'O campo telefone deve ter 9 caracteres',
+            'email.email' => 'O campo e-mail não foi preenchido corretamente',
+
+        ];
+
+        $request->validate($regras, $feedback);
+        $contato->update($request->all());
+        return redirect()->route('contato.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Controle  $controle
+     * @param  \App\Models\Contato  $contato
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Controle $controle)
+    public function destroy(Contato $contato)
     {
-        //
+        $contato->delete();
+        return redirect()->route('contato.index');
     }
 }
