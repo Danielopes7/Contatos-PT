@@ -10,13 +10,13 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <label class="form-label">Nome</label>
-                        <input type="text" class="form-control" value="{{ $contato->nome }}">
+                        <input type="text" class="form-control" value="{{ $contato->nome }}" readonly>
 
                         <label class="form-label">Telefone</label>
-                        <input type="text" class="form-control" value="{{ $contato->telefone }}">
+                        <input type="text" class="form-control" value="{{ $contato->telefone }}" readonly>
 
                         <label class="form-label">Email</label>
-                        <input type="text" class="form-control" value="{{ $contato->email }}">
+                        <input type="text" class="form-control" value="{{ $contato->email }}" readonly>
                     </div>
                     <a href="{{ url()->previous() }}" class="btn btn-primary">Voltar</a>
                 </div>
