@@ -11,9 +11,11 @@
                             Contatos
                         </div>
                         <div class="col-6 float-right">
+                            @auth
                             <div class="float-right">
                                 <a href="{{ route('contato.create')}}" class="mr-3"> Novo</a>
                             </div>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -24,27 +26,31 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
+                                <th scope="col">Nome</th>
                                 <th scope="col">Contato</th>
-                                <th scope="col">Data limite conclusão</th>
+                                <th scope="col">Email</th>
                                 <th></th>
                                 <th></th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach($contatos as $key => $t)
+                            @foreach($contatos as $key => $contato)
                                 <tr>
-                                    <th scope="row">{{ $t['id'] }}</th>
-                                    <td>{{ $t['tarefa'] }}</td>
-                                    <td>{{ date('d/m/Y', strtotime($t['data_limite_conclusao'])) }}</td>
-                                    <td><a href="{{ route('tarefa.edit', $t['id']) }}">Editar</a></td>
+                                    <th scope="row">{{ $contato->id }}</th>
+                                    <td> {{ $contato->nome }}</td>
+                                    <td> {{ $contato->telefone }}</td>
+                                    <td> {{ $contato->email }}</td>
+                                    @auth
+                                    <td><a href="{{ route('contato.edit', $contato->id) }}">Editar</a></td>
                                     <td>
-                                        <form id="form_{{$t['id']}}" method="post" action="{{ route('tarefa.destroy', ['tarefa' => $t['id']]) }}">
+                                        <form id="form_{{ $contato->id }}" method="post" action="{{ route('contato.destroy', ['contato' => $contato->id]) }}">
                                             @method('DELETE')
                                             @csrf
                                         </form>
-                                        <a href="#" onclick="document.getElementById('form_{{$t['id']}}').submit()">Excluir</a>
+                                        <a href="#" onclick="document.getElementById('form_{{ $contato->id }}').submit()">Excluir</a>
                                     </td>
+                                    @endauth
                                 </tr>
                             @endforeach
                         </tbody>
@@ -52,15 +58,15 @@
 
                     <nav>
                         <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="{{ $tarefas->previousPageUrl() }}">Voltar</a></li>
+                            <li class="page-item"><a class="page-link" href="{{ $contatos->previousPageUrl() }}">Voltar</a></li>
 
-                            @for($i = 1; $i <= $tarefas->lastPage(); $i++)
-                                <li class="page-item {{ $tarefas->currentPage() == $i ? 'active' : '' }}">
-                                    <a class="page-link" href="{{ $tarefas->url($i) }}">{{ $i }}</a>
+                            @for($i = 1; $i <= $contatos->lastPage(); $i++)
+                                <li class="page-item {{ $contatos->currentPage() == $i ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $contatos->url($i) }}">{{ $i }}</a>
                                 </li>
                             @endfor
                             
-                            <li class="page-item"><a class="page-link" href="{{ $tarefas->nextPageUrl() }}">Avançar</a></li>
+                            <li class="page-item"><a class="page-link" href="{{ $contatos->nextPageUrl() }}">Avançar</a></li>
                         </ul>
                     </nav>
                 </div>
